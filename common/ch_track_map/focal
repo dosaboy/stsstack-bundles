@@ -1,0 +1,18 @@
+# These are charmhub mappings for charms that are outside of the main large
+# groupings like openstack and ceph etc.
+
+# Versions are based on https://docs.openstack.org/charm-guide/latest/project/charm-delivery.html
+
+CHARM_TRACK[vault]=1.6/$CHARM_CHANNEL
+CHARM_TRACK[rabbitmq-server]=3.8/$CHARM_CHANNEL
+CHARM_TRACK[mysql-router]=8.0/$CHARM_CHANNEL
+CHARM_TRACK[mysql-innodb-cluster]=8.0/$CHARM_CHANNEL
+CHARM_TRACK[hacluster]=2.0.3/$CHARM_CHANNEL
+CHARM_TRACK[ovn-central]=20.03/$CHARM_CHANNEL
+CHARM_TRACK[ovn-chassis]=20.03/$CHARM_CHANNEL
+CHARM_TRACK[ovn-dedicated-chassis]=20.03/$CHARM_CHANNEL
+
+
+# At the moment of this patch, the barbican-vault only has {yoga,xena}/stable channels
+
+CHARM_TRACK[barbican-vault]=latest/stable

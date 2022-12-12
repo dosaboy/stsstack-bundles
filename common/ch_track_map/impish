@@ -3,18 +3,18 @@
 
 # Versions are based on https://docs.openstack.org/charm-guide/latest/project/charm-delivery.html
 
-CHARM_CHANNEL[vault]=1.7/edge
-CHARM_CHANNEL[rabbitmq-server]=3.8/edge
+CHARM_TRACK[vault]=1.7/$CHARM_CHANNEL
+CHARM_TRACK[rabbitmq-server]=3.8/$CHARM_CHANNEL
 # 8.0.19 supports impish but does not actually work and has been replaced with 8.0 which
 # does not officially support impish so to deploy this you need to add --force juju deploy
 # and use a local copy of the charm downloaded from charmhub.
-CHARM_CHANNEL[mysql-router]=8.0/edge
-CHARM_CHANNEL[mysql-innodb-cluster]=8.0/edge
-CHARM_CHANNEL[hacluster]=2.4/edge
-CHARM_CHANNEL[ovn-central]=21.09/edge
-CHARM_CHANNEL[ovn-chassis]=21.09/edge
-CHARM_CHANNEL[ovn-dedicated-chassis]=21.09/edge
+CHARM_TRACK[mysql-router]=8.0/$CHARM_CHANNEL
+CHARM_TRACK[mysql-innodb-cluster]=8.0/$CHARM_CHANNEL
+CHARM_TRACK[hacluster]=2.4/$CHARM_CHANNEL
+CHARM_TRACK[ovn-central]=21.09/$CHARM_CHANNEL
+CHARM_TRACK[ovn-chassis]=21.09/$CHARM_CHANNEL
+CHARM_TRACK[ovn-dedicated-chassis]=21.09/$CHARM_CHANNEL
 
 #  At the moment of this patch, the barbican-vault only has {yoga,xena}/stable channels
 
-CHARM_CHANNEL[barbican-vault]=latest/stable
+CHARM_TRACK[barbican-vault]=latest/stable

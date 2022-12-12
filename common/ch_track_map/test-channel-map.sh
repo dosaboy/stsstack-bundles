@@ -5,7 +5,8 @@ set -e -u
 series=$1
 release=$2
 
-declare -A CHARM_CHANNEL
+CHARM_CHANNEL=edge
+declare -A CHARM_TRACK
 
 # This variable is set to avoid an "undefined" error but otherwise not used
 ceph_release=octopus
@@ -29,8 +30,8 @@ for charm in \
   rabbitmq-server \
   vault
 do
-  if [[ -v CHARM_CHANNEL[${charm}] ]]; then
-    echo "${charm} ${CHARM_CHANNEL[${charm}]}" >> ${output}
+  if [[ -v CHARM_TRACK[${charm}] ]]; then
+    echo "${charm} ${CHARM_TRACK[${charm}]}" >> ${output}
   else
     echo "${charm} unset" >> ${output}
   fi

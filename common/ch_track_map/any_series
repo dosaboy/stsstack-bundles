@@ -1,0 +1,7 @@
+for c in ${OST_CHARMS[@]}; do
+    CHARM_TRACK[$c]=$release/$CHARM_CHANNEL
+done
+
+for c in ${CEPH_CHARMS[@]}; do
+    CHARM_TRACK[$c]=$ceph_release/$CHARM_CHANNEL
+done
