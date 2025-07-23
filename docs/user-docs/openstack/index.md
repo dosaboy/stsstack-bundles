@@ -6,7 +6,6 @@
 
 Tutorial <tutorial>
 BGP <bgp>
-DVR <dvr>
 Graylog <graylog>
 LDAP <ldap>
 NFS Server <nfs-server>
@@ -15,21 +14,8 @@ OVN <ovn>
 SAML <saml>
 Keystone + OpenIDC <keystone-openidc>
 Manila <manila-generic>
+Tools <tools/index.md>
 ```
-
-````{grid} 1 1 2 2
-```{grid-item-card} BGP
-:link: bgp
-:link-type: doc
-**Neutron Dynamic Routing with BGP** - learn how to deploy Neutron with BGP
-Dynamic Routing
-```
-```{grid-item-card} DVR
-:link: dvr
-:link-type: doc
-**DVR** - covering key operations and common tasks
-```
-````
 
 ````{grid} 1 1 2 2
 ```{grid-item-card} Graylog
@@ -88,5 +74,13 @@ Dynamic Routing
 :link: tutorial
 :link-type: doc
 **Tutorial** - learn how to deploy an OpenStack cloud on `serverstack`
+```
+````
+
+````{grid} 1 1 2 2
+```{grid-item-card} Tools
+:link: tools/index.md
+:link-type: doc
+**Tools** - documentation for OpenStack tools
 ```
 ````

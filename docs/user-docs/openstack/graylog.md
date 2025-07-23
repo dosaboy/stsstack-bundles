@@ -13,14 +13,14 @@ juju model-config -m <model> container-networking-method=local no-proxy=10.5.0.*
 ### Add `filebeat` relation to services you want to monitor _e.g._
 
 ```console
-juju add-relation filebeat nova-cloud-controller
-juju add-relation filebeat nova-compute
+juju relate filebeat nova-cloud-controller
+juju relate filebeat nova-compute
 ```
 
 ### Get admin password to log into GUI
 
 ```console
-juju run-action graylog/0 show-admin-password --wait
+juju run graylog/0 show-admin-password --wait
 ```
 
 Then go to `GRAYLOG_HOST:9001` and login
