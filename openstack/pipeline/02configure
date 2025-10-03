@@ -440,6 +440,12 @@ do
             MOD_OVERLAYS+=( "openstack/nova-console.yaml" )
             get_param $1 __CONSOLE_TYPE__ "REQUIRES: nova console access protocol:"
             ;;
+        --cinder-nfs)
+            MOD_OVERLAYS+=( "openstack/cinder-nfs.yaml" )
+            set -- $@ --nfs-server && cache $@
+            MOD_MSGS[cinder-nfs.0]='Once deployment is stable do the following:'
+            MOD_MSGS[cinder-nfs.1]='juju config cinder-nfs nfs-shares=<nfs-server-test-fixture-addr>:/srv/pool1'
+            ;;
         --nfs-server)
             MOD_OVERLAYS+=("nfs-server-test-fixture.yaml")
             ;;

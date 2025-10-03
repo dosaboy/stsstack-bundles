@@ -1,0 +1,7 @@
+applications:
+  cinder-nfs:
+    charm: __CHARM_STORE____CHARM_CS_NS____CHARM_CH_PREFIX__cinder-nfs
+    options:
+      volume-backend-name: nfs-pool1
+relations:
+  - [ __CINDER_VOLUME_INTERFACE__, cinder-nfs ]
