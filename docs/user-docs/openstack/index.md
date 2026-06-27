@@ -7,6 +7,7 @@
 Tutorial <tutorial>
 BGP <bgp>
 DVR <dvr>
+Functional Tests <functional-tests>
 Graylog <graylog>
 LDAP <ldap>
 NFS Server <nfs-server>
@@ -84,6 +85,11 @@ Dynamic Routing
 ````
 
 ````{grid} 1 1 2 2
+```{grid-item-card} Functional Tests
+:link: functional-tests
+:link-type: doc
+**Functional Tests** - learn how to run charm functional tests locally
+```
 ```{grid-item-card} Tutorial
 :link: tutorial
 :link-type: doc
