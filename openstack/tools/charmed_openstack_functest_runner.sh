@@ -377,9 +377,14 @@ if $MODIFY_BUNDLE_CONSTRAINTS; then
         if $(grep -q "nova-compute:" $f); then
             if [[ $(yq '.applications' $f) = null ]]; then
                 yq -i '.services.nova-compute.constraints="root-disk=80G mem=8G"' $f
+                machines=$(yq ".services.nova-compute.to[]" $f)
             else
                 yq -i '.applications.nova-compute.constraints="root-disk=80G mem=8G"' $f
+                machines=$(yq ".applications.nova-compute.to[]" $f)
             fi
+            for machine in $machines ; do
+                yq -i '.machines.'$machine'.constraints="root-disk=80G mem=8G"' $f
+            done
         fi
     done
     )
