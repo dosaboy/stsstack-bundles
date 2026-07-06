@@ -131,31 +131,34 @@ To re-run the tests you need to choose which of the following phases you want to
   * test
 
 EOF
-    read -p "Enter phase to run (exit|deploy|configure|test): " phase
-    case "$phase" in
-        deploy|configure|test)
-            while true; do
-                run_test_phase $phase $model $target_jobname
-                ret=$?
-                if (($ret)); then
-                    read -p "Failed. Try $phase phase again? [Y/n]" answer
-                    [[ -z $answer ]] || [[ ${answer,,} == y ]] || break
-                else
-                    [[ $phase == test ]] && break
-                    [[ $phase == deploy ]] && phase=configure || phase=test
-                fi
-            done
+    while true; do
+        read -p "Enter phase to run (exit|deploy|configure|test): " phase
+        case "$phase" in
+            deploy|configure|test)
+                while true; do
+                    run_test_phase $phase $model $target_jobname
+                    ret=$?
+                    if (($ret)); then
+                        read -p "Failed. Try $phase phase again? [Y/n]" answer
+                        [[ -z $answer ]] || [[ ${answer,,} == y ]] || break
+                    else
+                        [[ $phase == test ]] && break
+                        [[ $phase == deploy ]] && phase=configure || phase=test
+                    fi
+                done
+                return $ret
+                ;;
+            exit)
+                echo "INFO: exiting re-run"
+                return 1
+                ;;
+            *)
+                echo "ERROR: unrecognised phase name '$phase' - please try again"
             ;;
-        exit)
-            echo "INFO: exiting re-run"
-            return 1
-            ;;
-        *)
-            echo "ERROR: unrecognised phase name '$phase'"
-            exit 1
-        ;;
-    esac
-    return $ret
+        esac
+    done
+    # Should never get here but if we do its a fail.
+    return 1
 }
 
 
