@@ -109,8 +109,8 @@ run_test_phase ()
     _tmpdir_save=${TMPDIR:-}
     export TMPDIR=$TESTS_TMPDIR
     functest-$phase -m $model ${args}
-    export TMPDIR=$_tmpdir_save
     ret=$?
+    export TMPDIR=$_tmpdir_save
     deactivate
     return $ret
 }
@@ -131,31 +131,34 @@ To re-run the tests you need to choose which of the following phases you want to
   * test
 
 EOF
-    read -p "Enter phase to run (exit|deploy|configure|test): " phase
-    case "$phase" in
-        deploy|configure|test)
-            while true; do
-                run_test_phase $phase $model $target_jobname
-                ret=$?
-                if (($ret)); then
-                    read -p "Failed. Try $phase phase again? [Y/n]" answer
-                    [[ -z $answer ]] || [[ ${answer,,} == y ]] || break
-                else
-                    [[ $phase == test ]] && break
-                    [[ $phase == deploy ]] && phase=configure || phase=test
-                fi
-            done
+    while true; do
+        read -p "Enter phase to run (exit|deploy|configure|test): " phase
+        case "$phase" in
+            deploy|configure|test)
+                while true; do
+                    run_test_phase $phase $model $target_jobname
+                    ret=$?
+                    if (($ret)); then
+                        read -p "Failed. Try $phase phase again? [Y/n]" answer
+                        [[ -z $answer ]] || [[ ${answer,,} == y ]] || break
+                    else
+                        [[ $phase == test ]] && break
+                        [[ $phase == deploy ]] && phase=configure || phase=test
+                    fi
+                done
+                return $ret
+                ;;
+            exit)
+                echo "INFO: exiting re-run"
+                return 1
+                ;;
+            *)
+                echo "ERROR: unrecognised phase name '$phase' - please try again"
             ;;
-        exit)
-            echo "INFO: exiting re-run"
-            return
-            ;;
-        *)
-            echo "ERROR: unrecognised phase name '$phase'"
-            exit 1
-        ;;
-    esac
-    return $ret
+        esac
+    done
+    # Should never get here but if we do its a fail.
+    return 1
 }
 
 
@@ -377,9 +380,14 @@ if $MODIFY_BUNDLE_CONSTRAINTS; then
         if $(grep -q "nova-compute:" $f); then
             if [[ $(yq '.applications' $f) = null ]]; then
                 yq -i '.services.nova-compute.constraints="root-disk=80G mem=8G"' $f
+                machines=$(yq ".services.nova-compute.to[]" $f)
             else
                 yq -i '.applications.nova-compute.constraints="root-disk=80G mem=8G"' $f
+                machines=$(yq ".applications.nova-compute.to[]" $f)
             fi
+            for machine in $machines ; do
+                yq -i '.machines.'$machine'.constraints="root-disk=80G mem=8G"' $f
+            done
         fi
     done
     )
@@ -410,6 +418,9 @@ for target in ${func_target_order[@]}; do
     # Destroy any existing zaza models to ensure we have all the resources we
     # need.
     destroy_zaza_models
+
+    # Drop ext-ports the teardown leaked, before this model's FIPs are assigned.
+    $(dirname $0)/clean_orphan_dataports.sh || true
 
     # Only rebuild on first run.
     if $first; then
