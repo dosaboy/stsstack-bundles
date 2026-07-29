@@ -14,7 +14,7 @@ applications:
       nameservers: '__DESIGNATE_NAMESERVERS__'
   designate-bind:
     charm: __CHARM_STORE____CHARM_CS_NS____CHARM_CH_PREFIX__designate-bind
-    num_units: 1
+    num_units: __NUM_DESIGNATE_UNITS__
     constraints: mem=1G
     options:
       forwarders: __BIND_DNS_FORWARDER__
